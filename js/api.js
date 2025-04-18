@@ -38,7 +38,7 @@
  * buildUrl(1) // returns "https://rickandmortyapi.com/api/character?page=1&name=rick&status=alive"
  */
 import {currentFilters} from './filters.js';
-import {renderCharacters, renderError, hideError, isRenderErrorHidden } from './render.js';
+import {renderCharacters, renderError, hideError, isRenderErrorHidden, showLoading, hideLoading } from './render.js';
 import {updatePagination} from './pagination.js';
 
 export function fetchCharacters(page = 1){
@@ -65,7 +65,7 @@ export function fetchCharacters(page = 1){
      * // Fetch specific page
      * fetchCharacters(2);
      */
-    
+    showLoading();
     const url = buildUrl(page);
     
     fetch(url)
@@ -73,6 +73,7 @@ export function fetchCharacters(page = 1){
         return response.json();
     })
     .then(data => {
+        hideLoading();
         if (!isRenderErrorHidden()) hideError();//Si el error no esta oculto lo ocultamos
         if(data.error){
             renderError();
@@ -85,6 +86,8 @@ export function fetchCharacters(page = 1){
         }
         })
         .catch(error=>{
+            hideLoading();
+            renderError();
             console.error('Error al cargar personajes: ',error);
     });
 }
