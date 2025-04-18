@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick and Morty</title>    
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <meta name="description" content="Explore the multiverse of Rick and Morty! Find detailed information about your favorite characters.">
     <meta name="keywords" content="Rick and Morty, characters, episodes, locations, multiverse">
     <meta name="author" content="Fabian Dario Florez Raigoso">
@@ -14,122 +14,213 @@
     <meta property="og:url" content="http://yourwebsite.com">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+        extend: {
+            colors: {
+            primary: '#a6e22e',
+            dark: '#1e1e1e',
+            medium: '#2c2c2c',
+            light: '#3c3c3c',
+            textPrimary: '#e0e0e0',
+            textSecondary: '#b0b0b0',
+            danger: '#ff4444'
+            },
+            transitionProperty: {
+            DEFAULT: 'all',
+            },
+        },
+        },
+    }
+    </script>
+    
 </head>
 <body>
+    <header class="bg-dark text-textPrimary shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+          <!-- Logo -->
+          <h1 class="text-2xl font-bold text-primary">Rick & Morty Explorer</h1>
+      
+          <!-- Botón hamburguesa -->
+          <button id="menu-toggle" class="md:hidden text-primary text-2xl focus:outline-none">
+            <i class="bi bi-list"></i>
+          </button>
+      
+          <!-- Navegación -->
+          <nav id="mobile-menu" class="hidden md:flex flex-col md:flex-row md:space-x-6 absolute md:static top-full left-0 w-full md:w-auto bg-dark md:bg-transparent text-center md:text-left transition-all duration-300">
+            <a href="index.html" class="block py-2 md:py-0 hover:text-primary transition">Characters</a>
+            <a href="#" class="block py-2 md:py-0 hover:text-primary transition">Locations</a>
+            <a href="#" class="block py-2 md:py-0 hover:text-primary transition">Episodes</a>
+          </nav>
+        </div>
+      </header>
     <main>
-
-        <h1>Rick and Morty - Character Finder</h1>
-        <p>Explore the multiverse of Rick and Morty! Find detailed information about your favorite characters, from the alcoholic genius Rick Sanchez to the clumsy but brave Morty Smith. Discover their characteristics, episodes they appear in, and much more in this comprehensive character database.</p>
-        <section id="navigation">
-            <nav class="navigation-links">
-                <a href="index.html" class="nav-link">Characters</a>
-                <!-- <a href="#" class="nav-link">Locations</a>
-                <a href="#" class="nav-link">Episodes</a> -->
-            </nav>
+        <section class="h-screen w-full bg-cover bg-center flex flex-col justify-center items-center text-center px-4"
+         id="hero">
+         <img
+              src="./assets/hero.png"
+              alt="Rick and Morty multiverse"
+              class="absolute object-cover w-full h-full brightness-[0.5]"
+            />
+        <div class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end text-center text-textPrimary px-4 pb-8">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-primary drop-shadow-lg">Explore the Multiverse</h2>
+            <p class="mt-4 text-lg md:text-xl text-textSecondary max-w-xl">
+                Discover characters, locations, and episodes from the Rick and Morty universe.
+            </p>
+            <button id="scroll-down"
+            class="text-[#1e1e1e] bg-[#a6e22e] hover:bg-lime-400 font-medium py-2 px-6 rounded-full transition">
+            <i class="bi bi-arrow-down mr-2"></i> Explore
+            </button>
+        </div>
         </section>
-        <section id="buscador">
-            <div class="search-container">
-                <select id="search-type">
+        <!-- <section class="h-screen  w-full h-[60vh] md:h-[75vh] overflow-hidden">
+            
+            
+        </section> -->
+    
+        <section class="bg-medium py-9 text-textPrimary scroll-mt-28" id="search" >
+            <div class="max-w-6xl mx-auto px-4">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <!-- Tipo de búsqueda -->
+                <div>
+                  <label for="search-type" class="block text-sm font-medium mb-1">Search by</label>
+                  <select id="search-type" class="w-full px-3 py-2 bg-light border border-gray-600 rounded text-textPrimary focus:outline-none">
                     <option value="name" selected>Name</option>
                     <option value="species">Species</option>
                     <option value="type">Type</option>
-                </select>
-                
-                <input type="text" id="search-input" placeholder="Search character...">
-                <select id="status-select" class="status-filter">
-                    <option value="">Select status</option>
+                  </select>
+                </div>
+          
+                <!-- Input de búsqueda -->
+                <div class="md:col-span-2">
+                  <label for="search-input" class="block text-sm font-medium mb-1">Search term</label>
+                  <input id="search-input" type="text" placeholder="Search character..." class="w-full px-3 py-2 bg-light border border-gray-600 rounded text-textPrimary placeholder-textSecondary focus:outline-none">
+                </div>
+              </div>
+          
+              <!-- Filtros adicionales -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Status -->
+                <div>
+                  <label for="status-select" class="block text-sm font-medium mb-1">Status</label>
+                  <select id="status-select" class="w-full px-3 py-2 bg-light border border-gray-600 rounded text-textPrimary focus:outline-none">
+                    <option value="">All Statuses</option>
                     <option value="alive">Alive</option>
                     <option value="dead">Dead</option>
                     <option value="unknown">Unknown</option>
-                </select>
-                <select id="gender-select" class="gender-filter">
-                    <option value="">Select gender</option>
+                  </select>
+                </div>
+          
+                <!-- Gender -->
+                <div>
+                  <label for="gender-select" class="block text-sm font-medium mb-1">Gender</label>
+                  <select id="gender-select" class="w-full px-3 py-2 bg-light border border-gray-600 rounded text-textPrimary focus:outline-none">
+                    <option value="">All Genders</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="genderless">Genderless</option>
                     <option value="unknown">Unknown</option>
-                </select>
+                  </select>
+                </div>
+              </div>
+          
+              <!-- Botones -->
+              <div class="flex gap-4 justify-end">
+                <button id="search-btn" class="bg-primary text-dark px-4 py-2 rounded hover:opacity-90 transition">🔍 Search</button>
+                <button id="clear-search" class="bg-danger text-white px-4 py-2 rounded hover:opacity-90 transition">🗑️ Clear</button>
+              </div>
+            </div>
+        </section>
+        
+        <section class="bg-dark py-10 text-textPrimary">
+            <div class="max-w-6xl mx-auto px-4">
+              
+              <!-- Mensaje de error -->
+              <div id="no-characters-message" class="hidden-div text-center bg-light border border-danger rounded p-6 mb-6">
+                <p class="text-lg font-semibold text-danger">
+                  🚫 No characters found matching your search criteria.<br>
+                  Try adjusting your search parameters or clear the search to see all characters.
+                </p>
+              </div>
+              <!-- hidden -->
+              <div id="loading-indicator" class=" fixed inset-0 bg-dark bg-opacity-70 flex justify-center items-center z-50">
+                <div class="flex flex-col items-center gap-4">
+                  <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                  <p class="text-textPrimary text-lg font-semibold">Loading characters...</p>
+                </div>
+              </div>
+              <!-- Contenedor de tarjetas -->
+              <div id="character-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Las tarjetas van a ser renderizadas dinámicamente aquí -->
                 
-                <div class="button-group">
-                    <button id="search-btn" class="search-button">
-                        <span class="search-icon">🔍</span>
-                    </button>
-                    <button id="clear-search" class="search-button">
-                        <span class="search-icon">🗑️</span>
-                    </button>
-                </div>
+              </div>
+          
             </div>
-        </section>
-        <section id="personajes">
-            <div id="no-characters-message" class="hidden-div" >
-                <p class="no-results-message">No characters found matching your search criteria. Try adjusting your search parameters or clear the search to see all characters.</p>
+          </section>
+          <section class="w-full py-6 bg-[#1e1e1e] border-t border-[#2c2c2c]">
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
+              <!-- Botones izquierda -->
+              <div class="flex space-x-2">
+                <button id="first-page" class="pagination-button" disabled>
+                  <i class="bi bi-chevron-bar-left text-primary"></i>
+                </button>
+                <button id="prev-page" class="pagination-button" disabled>
+                  <i class="bi bi-chevron-left text-primary"></i>
+                </button>
+              </div>
+          
+              <!-- Info de página -->
+              <div class="text-sm text-[#e0e0e0] font-medium">
+                Page <span id="current-page" class="text-[#a6e22e] font-bold">1</span> of <span id="total-pages">1</span>
+              </div>
+          
+              <!-- Botones derecha -->
+              <div class="flex space-x-2">
+                <button id="next-page" class="pagination-button">
+                  <i class="bi bi-chevron-right text-primary"></i>
+                </button>
+                <button id="last-page" class="pagination-button">
+                  <i class="bi bi-chevron-bar-right text-primary"></i>
+                </button>
+              </div>
             </div>
-            <div id="character-list">
-                <!-- <div class="character-card">
-                    <div class="character-image">
-                        <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Rick Sanchez" class="character-img">
-                    </div>
-                    <div class="character-info">
-                        <h2 class="character-name">Rick Sanchez</h2>
-                        <div class="character-status-container">
-                            <span class="status-indicator alive"></span>
-                            <span class="status-text">Alive</span>
-                        </div>
-                        <div class="character-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Species:</span>
-                                <span class="detail-value">Human</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Gender:</span>
-                                <span class="detail-value">Male</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Origin:</span>
-                                <span class="detail-value">Earth (C-137)</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Location:</span>
-                                <span class="detail-value">Citadel of Ricks</span>
-                            </div>
-                        </div>
-                        <div class="character-episodes">
-                            <span class="episodes-count">Appears in 51 episodes</span>
-                        </div>
-                    </div>
-                </div> -->
-                
-            </div>
-        </section>
-
-        <section id="pagination">
-            <div class="pagination-container">
-                <div class="back-pagination-buttons">
-                    <button id="first-page" class="pagination-button" disabled>
-                        <span class="pagination-icon"><<</span>
-                        First
-                    </button>
-                    <button id="prev-page" class="pagination-button" disabled>
-                        <span class="pagination-icon">←</span>
-                        Previous
-                    </button>
-                </div>
-                <div class="page-info">
-                    Page <span id="current-page">1</span> of <span id="total-pages">1</span>
-                </div>
-                <div class="back-pagination-buttons">
-                    <button id="next-page" class="pagination-button">
-                        Next
-                        <span class="pagination-icon">→</span>
-                    </button>
-                    <button id="last-page" class="pagination-button">
-                        Last
-                        <span class="pagination-icon">>></span>
-                    </button>
-                </div>
-            </div>
-        </section>
+          </section>
+          <!-- Botón scroll arriba -->
+        <button id="scroll-top" title="Go to top"
+        class="fixed bottom-6 right-6 bg-[#a6e22e] text-[#1e1e1e] p-3 rounded-full shadow-md hover:bg-lime-400 transition-opacity opacity-0 pointer-events-none z-50">
+        <i class="bi bi-arrow-up"></i>
+        </button>
     </main>
+
+      
+      <footer class="bg-gradient-to-t bg-[#1e1e1e] text-[#e0e0e0] py-8 border-t border-[#3c3c3c]">
+        <div class="container mx-auto px-4 flex flex-col items-center space-y-4">
+          <div class="flex items-center space-x-2">
+            <i class="bi bi-stars text-[#a6e22e] text-2xl"></i>
+            <h2 class="text-xl font-semibold tracking-wide">Rick & Morty Explorer</h2>
+          </div>
+      
+          <nav class="flex space-x-6 text-sm text-[#b0b0b0]">
+            <a href="index.html" class="hover:text-[#a6e22e] transition">Characters</a>
+            <a href="#" class="hover:text-[#a6e22e] transition">Locations</a>
+            <a href="#" class="hover:text-[#a6e22e] transition">Episodes</a>
+          </nav>
+      
+          <div class="text-sm text-[#b0b0b0] text-center">
+            Developed by 
+            <a href="https://fabianflorez0904.github.io/" target="_blank" class="text-[#a6e22e] hover:underline"><i class="bi bi-github"></i> Fabian Florez</a> |
+            <a href="https://www.linkedin.com/in/fabian-dario-florez-raigoso-ba71442bb/" target="_blank" class="text-[#a6e22e] hover:underline"><i class="bi bi-linkedin"></i> LinkedIn</a>
+          </div>
+      
+          <div class="text-xs text-[#555]">
+            &copy; 2025 All rights reserved.
+          </div>
+        </div>
+      </footer>
+
     <script type="module" src="main.js"></script>
 </body>
 </html>

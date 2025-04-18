@@ -14,141 +14,71 @@
  * @module render
  */
 
-
 export function renderCharacters(personajes) {
-    /**
-     * Renders a list of characters in the character-list container.
-     * 
-     * @param {Array} personajes - Array of character objects to be rendered
-     * 
-     * @description
-     * This function:
-     * 1. Gets the character-list container element
-     * 2. Clears any existing content
-     * 3. Iterates through each character in the array
-     * 4. Creates a character card for each character using createCharacterCard
-     * 5. Appends each card to the container
-     * 
-     * @example
-     * // Render a list of characters
-     * renderCharacters([
-     *   { name: "Rick Sanchez", status: "Alive", ... },
-     *   { name: "Morty Smith", status: "Alive", ... }
-     * ]);
-     */
-    const container = document.getElementById('character-list');
-    container.innerHTML = '';
-    personajes.forEach(personaje => {
-      const card = createCharacterCard(personaje);
-      container.appendChild(card);
-    });
-  }
+  const container = document.getElementById('character-list');
+  container.innerHTML = '';
+  personajes.forEach(p => container.appendChild(createCharacterCard(p)));
+}
 
 function createCharacterCard(p) {
-  /**
-   * Creates a character card element with the provided character data.
-   * 
-   * @param {Object} p - Character object containing all character information
-   * @returns {HTMLElement} A div element containing the character card HTML structure
-   * 
-   * @description
-   * This function creates a character card with the following sections:
-   * - Character image
-   * - Character name
-   * - Status indicator and text
-   * - Character details (species, gender, origin, location)
-   * - Episode count
-   * 
-   * The card is styled using CSS classes and includes:
-   * - Dynamic status indicator based on character status
-   * - Proper alt text for accessibility
-   * - Pluralization for episode count
-   * 
-   * @example
-   * const character = {
-   *   name: "Rick Sanchez",
-   *   status: "Alive",
-   *   species: "Human",
-   *   gender: "Male",
-   *   origin: { name: "Earth (C-137)" },
-   *   location: { name: "Citadel of Ricks" },
-   *   episode: ["episode1", "episode2", ...],
-   *   image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-   * };
-   * const card = createCharacterCard(character);
-   */
-  const div = document.createElement('div');
-  div.classList.add('character-card');
+  const card = document.createElement('article');
+  card.className = 'bg-medium rounded-xl overflow-hidden shadow-lg transition-transform hover:scale-[1.02] duration-300';
 
-  div.innerHTML = `
-    <div class="character-image">
-      <img src="${p.image}" alt="${p.name}" class="character-img" />
+  const statusColor = getStatusColor(p.status);
+
+  card.innerHTML = `
+    <div class="relative">
+      <img src="${p.image}" alt="${p.name}" class="w-full h-56 object-cover">
+      <div class="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-dark text-sm rounded-full shadow-md">
+        <span class="w-2 h-2 rounded-full ${statusColor}"></span>
+        <span>${p.status}</span>
+      </div>
     </div>
-    <div class="character-info">
-      <h2 class="character-name">${p.name}</h2>
-      <div class="character-status-container">
-        <span class="status-indicator ${p.status.toLowerCase()}"></span>
-        <span class="status-text">${p.status}</span>
-      </div>
-      <div class="character-details">
-        <div class="detail-item"><span class="detail-label">Especie:</span> ${p.species}</div>
-        <div class="detail-item"><span class="detail-label">Género:</span> ${p.gender}</div>
-        <div class="detail-item"><span class="detail-label">Origen:</span> ${p.origin.name}</div>
-        <div class="detail-item"><span class="detail-label">Ubicación:</span> ${p.location.name}</div>
-      </div>
-      <div class="character-episodes">
-        <span class="episodes-count">Appears in ${p.episode.length} ${p.episode.length === 1 ? 'episode' : 'episodes'}</span>
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-2">${p.name}</h2>
+      <ul class="text-sm space-y-1">
+        <li><span class="text-textSecondary">Species:</span> ${p.species}</li>
+        <li><span class="text-textSecondary">Gender:</span> ${p.gender}</li>
+        <li><span class="text-textSecondary">Origin:</span> ${p.origin.name}</li>
+        <li><span class="text-textSecondary">Location:</span> ${p.location.name}</li>
+      </ul>
+      <div class="pt-3">
+        <span class="text-sm text-primary font-semibold">⭐ Appears in ${p.episode.length} episode${p.episode.length === 1 ? '' : 's'}</span>
       </div>
     </div>
   `;
+  return card;
+}
 
-  return div;
+function getStatusColor(status) {
+  switch (status.toLowerCase()) {
+    case 'alive':
+      return 'bg-green-500';
+    case 'dead':
+      return 'bg-red-500';
+    default:
+      return 'bg-gray-400';
+  }
 }
 
 export function renderError() {
-  /**
-   * Renders an error message when no characters are found or when there's an API error.
-   * 
-   * @description
-   * This function handles the display of error states by:
-   * - Clearing the character list container
-   * - Showing the "no characters found" message
-   * 
-   * The error message is displayed in a dedicated div that is normally hidden
-   * and contains a user-friendly message suggesting to adjust search parameters.
-   * 
-   * @example
-   * // When no characters match the search criteria
-   * renderError();
-   * 
-   * // When the API returns an error
-   * renderError();
-   */
   document.getElementById('character-list').innerHTML = '';
-  document.getElementById('no-characters-message').classList.remove('hidden-div');
+  document.getElementById('no-characters-message').classList.remove('hidden');
 }
 
 export function hideError() {
-  /**
-   * Hides the error message element by adding the 'hidden-div' class.
-   * 
-   * @description
-   * This function is responsible for hiding the error message that appears when no characters
-   * are found or when there's an API error. It does this by adding the 'hidden-div' CSS class
-   * to the error message element, which typically sets display: none.
-   * 
-   * This function is typically called when:
-   * - New character data is successfully loaded
-   * - Search filters are cleared
-   * - The page is initially loaded
-   * 
-   * @example
-   * // Hide error message after successful character fetch
-   * hideError();
-   */
-  document.getElementById('no-characters-message').classList.add('hidden-div');
+  document.getElementById('no-characters-message').classList.add('hidden');
 }
 
 export function isRenderErrorHidden() {
-    return document.getElementById('no-characters-message').classList.contains('hidden-div');
+  return document.getElementById('no-characters-message').classList.contains('hidden');
 }
+
+export function showLoading() {
+  document.getElementById('loading-indicator').classList.remove('hidden');
+}
+
+export function hideLoading() {
+  document.getElementById('loading-indicator').classList.add('hidden');
+}
+
