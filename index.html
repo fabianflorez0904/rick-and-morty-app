@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick and Morty</title>    
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Explore the multiverse of Rick and Morty! Find detailed information about your favorite characters.">
+    <meta name="keywords" content="Rick and Morty, characters, episodes, locations, multiverse">
+    <meta name="author" content="Fabian Dario Florez Raigoso">
+    <meta property="og:title" content="Rick and Morty - Character Finder">
+    <meta property="og:description" content="Explore the multiverse of Rick and Morty! Find detailed information about your favorite characters.">
+    <meta property="og:image" content="path/to/your/image.jpg">
+    <meta property="og:url" content="http://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <main>
+
+        <h1>Rick and Morty - Character Finder</h1>
+        <p>Explore the multiverse of Rick and Morty! Find detailed information about your favorite characters, from the alcoholic genius Rick Sanchez to the clumsy but brave Morty Smith. Discover their characteristics, episodes they appear in, and much more in this comprehensive character database.</p>
+        <section id="navigation">
+            <nav class="navigation-links">
+                <a href="index.html" class="nav-link">Characters</a>
+                <!-- <a href="#" class="nav-link">Locations</a>
+                <a href="#" class="nav-link">Episodes</a> -->
+            </nav>
+        </section>
+        <section id="buscador">
+            <div class="search-container">
+                <select id="search-type">
+                    <option value="name" selected>Name</option>
+                    <option value="species">Species</option>
+                    <option value="type">Type</option>
+                </select>
+                
+                <input type="text" id="search-input" placeholder="Search character...">
+                <select id="status-select" class="status-filter">
+                    <option value="">Select status</option>
+                    <option value="alive">Alive</option>
+                    <option value="dead">Dead</option>
+                    <option value="unknown">Unknown</option>
+                </select>
+                <select id="gender-select" class="gender-filter">
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="genderless">Genderless</option>
+                    <option value="unknown">Unknown</option>
+                </select>
+                
+                <div class="button-group">
+                    <button id="search-btn" class="search-button">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                    <button id="clear-search" class="search-button">
+                        <span class="search-icon">🗑️</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section id="personajes">
+            <div id="no-characters-message" class="hidden-div" >
+                <p class="no-results-message">No characters found matching your search criteria. Try adjusting your search parameters or clear the search to see all characters.</p>
+            </div>
+            <div id="character-list">
+                <!-- <div class="character-card">
+                    <div class="character-image">
+                        <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Rick Sanchez" class="character-img">
+                    </div>
+                    <div class="character-info">
+                        <h2 class="character-name">Rick Sanchez</h2>
+                        <div class="character-status-container">
+                            <span class="status-indicator alive"></span>
+                            <span class="status-text">Alive</span>
+                        </div>
+                        <div class="character-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Species:</span>
+                                <span class="detail-value">Human</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Gender:</span>
+                                <span class="detail-value">Male</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Origin:</span>
+                                <span class="detail-value">Earth (C-137)</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value">Citadel of Ricks</span>
+                            </div>
+                        </div>
+                        <div class="character-episodes">
+                            <span class="episodes-count">Appears in 51 episodes</span>
+                        </div>
+                    </div>
+                </div> -->
+                
+            </div>
+        </section>
+
+        <section id="pagination">
+            <div class="pagination-container">
+                <div class="back-pagination-buttons">
+                    <button id="first-page" class="pagination-button" disabled>
+                        <span class="pagination-icon"><<</span>
+                        First
+                    </button>
+                    <button id="prev-page" class="pagination-button" disabled>
+                        <span class="pagination-icon">←</span>
+                        Previous
+                    </button>
+                </div>
+                <div class="page-info">
+                    Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+                </div>
+                <div class="back-pagination-buttons">
+                    <button id="next-page" class="pagination-button">
+                        Next
+                        <span class="pagination-icon">→</span>
+                    </button>
+                    <button id="last-page" class="pagination-button">
+                        Last
+                        <span class="pagination-icon">>></span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
